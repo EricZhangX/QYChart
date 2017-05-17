@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  MainTableVC.h
 //  QYChart
 //
 //  Created by 张庆玉 on 16/05/2017.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface MainTableVC : UITableViewController
 
 @end
-
