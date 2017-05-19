@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger,QYBaseLineType) {
 
 
 //尺寸
-//Y轴Title的宽度 default = 60
+//Y轴Title的宽度 default = 40
 @property (nonatomic, assign) CGFloat yAxisTitleWidth;
 //y轴Title的偏移量 default = 0
 @property (nonatomic, assign) CGFloat yAxisTitleOffset;

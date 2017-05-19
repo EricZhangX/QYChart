@@ -27,7 +27,7 @@
 
 
 - (void)drawBarWithChartData:(NSArray *)datas {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextRef context = UIGraphicsGetCurrentContext();
     
     NSInteger count = datas.count > self.xAxisTitles.count ? datas.count : self.xAxisTitles.count;
     
@@ -46,18 +46,18 @@
             CGFloat yEndPosition = chartHeight * (1.f -(yValue - self.yAxisRange.location) / self.yAxisRange.length);
             currentValue += barData.value;
             
-//            UIBezierPath *path = [UIBezierPath bezierPath];
-//            [path moveToPoint:CGPointMake(offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yStartPosition)];
-//            [path addLineToPoint:CGPointMake(offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yEndPosition)];
-//            path.lineWidth = barData.barWidth;
-//            [barData.color setStroke];
-//            [path stroke];
+            UIBezierPath *path = [UIBezierPath bezierPath];
+            [path moveToPoint:CGPointMake(offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yStartPosition)];
+            [path addLineToPoint:CGPointMake(offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yEndPosition)];
+            path.lineWidth = barData.barWidth;
+            [barData.color setStroke];
+            [path stroke];
             
-            CGContextSetLineWidth(context, barData.barWidth);
-            CGContextSetStrokeColorWithColor(context, barData.color.CGColor);
-            CGContextMoveToPoint(context, offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yStartPosition);
-            CGContextAddLineToPoint(context, offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yEndPosition);
-            CGContextStrokePath(context);
+//            CGContextSetLineWidth(context, barData.barWidth);
+//            CGContextSetStrokeColorWithColor(context, barData.color.CGColor);
+//            CGContextMoveToPoint(context, offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yStartPosition);
+//            CGContextAddLineToPoint(context, offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yEndPosition);
+//            CGContextStrokePath(context);
         }
     }
 }

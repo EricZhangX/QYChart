@@ -53,7 +53,7 @@
     _coordinateColor = [UIColor blackColor];
     _baseLineColor = [UIColor grayColor];
     //尺寸
-    _yAxisTitleWidth = 60;
+    _yAxisTitleWidth = 40;
     _yAxisTitleOffset = 0;
     _xAxisTitleHeight = 20;
     _xAxisTitleOffset = 0;

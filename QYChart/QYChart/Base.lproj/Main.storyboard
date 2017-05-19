@@ -57,6 +57,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="AG5-6K-bg1" kind="show" id="O8F-vm-r6B"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -71,6 +74,59 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ml8-E6-L20" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-203" y="74"/>
+        </scene>
+        <!--QYBarChart-->
+        <scene sceneID="OFb-MT-vR1">
+            <objects>
+                <viewController title="QYBarChart" id="AG5-6K-bg1" customClass="QYBarChartDemoVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hoY-kY-k2p"/>
+                        <viewControllerLayoutGuide type="bottom" id="rjp-VC-O7s"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dEo-Iq-Juz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GPP-q5-3Xs">
+                                <rect key="frame" x="0.0" y="64" width="375" height="250"/>
+                                <color key="backgroundColor" red="0.89411764709999997" green="0.67450980390000004" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="kV4-li-lLe"/>
+                                </constraints>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="aNj-Xj-9Hj">
+                                <rect key="frame" x="16" y="374" width="343" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="kUS-AV-IQk"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="NoBaseLine"/>
+                                    <segment title="DashDotBaseLine"/>
+                                    <segment title="SoildBaseLine"/>
+                                </segments>
+                                <color key="tintColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="changeBaseLine:" destination="AG5-6K-bg1" eventType="valueChanged" id="kNu-CR-faz"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aNj-Xj-9Hj" firstAttribute="top" secondItem="GPP-q5-3Xs" secondAttribute="bottom" constant="60" id="4ca-bT-gih"/>
+                            <constraint firstItem="aNj-Xj-9Hj" firstAttribute="leading" secondItem="dEo-Iq-Juz" secondAttribute="leadingMargin" id="bAp-B7-JmW"/>
+                            <constraint firstItem="GPP-q5-3Xs" firstAttribute="top" secondItem="hoY-kY-k2p" secondAttribute="bottom" id="hgv-2E-0lQ"/>
+                            <constraint firstItem="aNj-Xj-9Hj" firstAttribute="trailing" secondItem="dEo-Iq-Juz" secondAttribute="trailingMargin" id="rTQ-SE-ynv"/>
+                            <constraint firstAttribute="trailing" secondItem="GPP-q5-3Xs" secondAttribute="trailing" id="slO-xF-zhh"/>
+                            <constraint firstItem="GPP-q5-3Xs" firstAttribute="leading" secondItem="dEo-Iq-Juz" secondAttribute="leading" id="zU9-8m-76q"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="chartBaseView" destination="GPP-q5-3Xs" id="8PU-4P-Jhj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="npS-E5-Ice" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="608.79999999999995" y="239.73013493253376"/>
         </scene>
         <!--QYLineChart-->
         <scene sceneID="suc-n7-Ga0">
@@ -105,24 +161,6 @@
                                     <action selector="changeLineStyle:" destination="CkD-1G-x2Y" eventType="valueChanged" id="dGF-oF-Ltf"/>
                                 </connections>
                             </segmentedControl>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="GUo-4D-a4O">
-                                <rect key="frame" x="140" y="545" width="94" height="29"/>
-                                <connections>
-                                    <action selector="changeData:" destination="CkD-1G-x2Y" eventType="valueChanged" id="hci-Qt-SuZ"/>
-                                </connections>
-                            </stepper>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="addData" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p1q-pS-yKv">
-                                <rect key="frame" x="242" y="551" width="55" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="delData" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmU-cE-YYt">
-                                <rect key="frame" x="82" y="550.5" width="50" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wbN-hv-wJn">
                                 <rect key="frame" x="16" y="439" width="343" height="34"/>
                                 <constraints>
@@ -158,20 +196,14 @@
                             <constraint firstItem="9Zz-sZ-cfV" firstAttribute="leading" secondItem="RFp-RN-JKX" secondAttribute="leadingMargin" id="3er-cq-cVW"/>
                             <constraint firstItem="WUu-ez-K0x" firstAttribute="leading" secondItem="RFp-RN-JKX" secondAttribute="leading" id="AtR-I4-5q3"/>
                             <constraint firstItem="wbN-hv-wJn" firstAttribute="top" secondItem="9Zz-sZ-cfV" secondAttribute="bottom" constant="22" id="JxC-JD-IGc"/>
-                            <constraint firstItem="NmU-cE-YYt" firstAttribute="centerY" secondItem="GUo-4D-a4O" secondAttribute="centerY" id="L58-hO-tZF"/>
                             <constraint firstItem="9Zz-sZ-cfV" firstAttribute="top" secondItem="WUu-ez-K0x" secondAttribute="bottom" constant="20" id="Mis-ug-398"/>
                             <constraint firstAttribute="trailing" secondItem="WUu-ez-K0x" secondAttribute="trailing" id="Qd4-17-bYN"/>
                             <constraint firstItem="WWG-Eb-ahd" firstAttribute="leading" secondItem="RFp-RN-JKX" secondAttribute="leadingMargin" id="S5o-fg-mhd"/>
                             <constraint firstItem="wbN-hv-wJn" firstAttribute="trailing" secondItem="RFp-RN-JKX" secondAttribute="trailingMargin" id="Wxx-e3-yCs"/>
-                            <constraint firstItem="GUo-4D-a4O" firstAttribute="centerX" secondItem="RFp-RN-JKX" secondAttribute="centerX" id="XSZ-aQ-1Ta"/>
-                            <constraint firstItem="GUo-4D-a4O" firstAttribute="leading" secondItem="NmU-cE-YYt" secondAttribute="trailing" constant="8" id="avW-M7-FZK"/>
-                            <constraint firstItem="p1q-pS-yKv" firstAttribute="leading" secondItem="GUo-4D-a4O" secondAttribute="trailing" constant="8" id="bTg-9P-iB5"/>
                             <constraint firstItem="WWG-Eb-ahd" firstAttribute="trailing" secondItem="RFp-RN-JKX" secondAttribute="trailingMargin" id="c67-Gd-rWP"/>
                             <constraint firstItem="WWG-Eb-ahd" firstAttribute="top" secondItem="wbN-hv-wJn" secondAttribute="bottom" constant="20" id="fbt-8Q-mR6"/>
                             <constraint firstItem="9Zz-sZ-cfV" firstAttribute="trailing" secondItem="RFp-RN-JKX" secondAttribute="trailingMargin" id="gC8-Y2-t2E"/>
                             <constraint firstItem="WUu-ez-K0x" firstAttribute="top" secondItem="RFp-RN-JKX" secondAttribute="top" constant="64" id="gbT-BT-T7e"/>
-                            <constraint firstItem="p1q-pS-yKv" firstAttribute="centerY" secondItem="GUo-4D-a4O" secondAttribute="centerY" id="h92-yG-m6w"/>
-                            <constraint firstItem="GUo-4D-a4O" firstAttribute="top" secondItem="WWG-Eb-ahd" secondAttribute="bottom" constant="20" id="iqM-1O-9E9"/>
                             <constraint firstItem="wbN-hv-wJn" firstAttribute="leading" secondItem="RFp-RN-JKX" secondAttribute="leadingMargin" id="j6u-3L-upT"/>
                         </constraints>
                     </view>
@@ -181,7 +213,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IRY-7W-Qi7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="500" y="72.413793103448285"/>
+            <point key="canvasLocation" x="609" y="-421"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="uHb-Bc-j9W">

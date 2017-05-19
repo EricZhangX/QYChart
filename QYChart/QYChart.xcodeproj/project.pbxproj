@@ -20,6 +20,7 @@
 		9949293F1ECAE736004E37B0 /* QYLineChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = 994929391ECAE736004E37B0 /* QYLineChartData.m */; };
 		994929421ECAE7C3004E37B0 /* MainTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 994929411ECAE7C3004E37B0 /* MainTableVC.m */; };
 		994929451ECAE8B5004E37B0 /* QYLineChartDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 994929441ECAE8B5004E37B0 /* QYLineChartDemoVC.m */; };
+		99D938571ECEE62B00EC33D8 /* QYBarChartDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 99D938561ECEE62B00EC33D8 /* QYBarChartDemoVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,8 @@
 		994929431ECAE8B5004E37B0 /* QYLineChartDemoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QYLineChartDemoVC.h; sourceTree = "<group>"; };
 		994929441ECAE8B5004E37B0 /* QYLineChartDemoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QYLineChartDemoVC.m; sourceTree = "<group>"; };
 		994929471ECAE993004E37B0 /* QYChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QYChart.h; sourceTree = "<group>"; };
+		99D938551ECEE62B00EC33D8 /* QYBarChartDemoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QYBarChartDemoVC.h; sourceTree = "<group>"; };
+		99D938561ECEE62B00EC33D8 /* QYBarChartDemoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QYBarChartDemoVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +90,8 @@
 				994929411ECAE7C3004E37B0 /* MainTableVC.m */,
 				994929431ECAE8B5004E37B0 /* QYLineChartDemoVC.h */,
 				994929441ECAE8B5004E37B0 /* QYLineChartDemoVC.m */,
+				99D938551ECEE62B00EC33D8 /* QYBarChartDemoVC.h */,
+				99D938561ECEE62B00EC33D8 /* QYBarChartDemoVC.m */,
 				993F7E561ECADB8300F3A962 /* Main.storyboard */,
 				993F7E591ECADB8300F3A962 /* Assets.xcassets */,
 				993F7E5B1ECADB8300F3A962 /* LaunchScreen.storyboard */,
@@ -203,6 +208,7 @@
 				9949293F1ECAE736004E37B0 /* QYLineChartData.m in Sources */,
 				994929421ECAE7C3004E37B0 /* MainTableVC.m in Sources */,
 				9949293E1ECAE736004E37B0 /* QYLineChart.m in Sources */,
+				99D938571ECEE62B00EC33D8 /* QYBarChartDemoVC.m in Sources */,
 				993F7E521ECADB8300F3A962 /* AppDelegate.m in Sources */,
 				993F7E4F1ECADB8300F3A962 /* main.m in Sources */,
 				9949293B1ECAE736004E37B0 /* QYBarChartData.m in Sources */,
