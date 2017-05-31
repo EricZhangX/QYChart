@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-#define BAR_CHART_TOP_PADDING 10
-#define BAR_CHART_LEFT_PADDING 8
-#define BAR_CHART_RIGHT_PADDING 8
-#define BAR_CHART_DefaultYCount 4
+#define ChartTopPadding 10
+#define ChartLeftPadding 8
+#define ChartRightPadding 8
+#define ChartDefaultYCount 4
 
 typedef NS_ENUM(NSInteger,QYBaseLineType) {
     QYNoBaseLine        = 0,
@@ -45,6 +45,10 @@ typedef NS_ENUM(NSInteger,QYBaseLineType) {
 @property (nonatomic, assign) QYBaseLineType baseLineType;
 //是否绘制坐标轴 default = YES
 @property (nonatomic, assign) BOOL isDrawCoordinate;
+//是否绘制坐标轴右边界 default = NO
+@property (nonatomic, assign) BOOL isDrawRightCoordinate;
+//是否绘制坐标轴上边界 default = NO
+@property (nonatomic, assign) BOOL isDrawTopCoordinate;
 //是否显示x轴title default = YES
 @property (nonatomic, assign) BOOL isShowXaxixTitle;
 //是否显示y轴title default = YES

@@ -47,8 +47,8 @@
             currentValue += barData.value;
             
             UIBezierPath *path = [UIBezierPath bezierPath];
-            [path moveToPoint:CGPointMake(offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yStartPosition)];
-            [path addLineToPoint:CGPointMake(offSetY + BAR_CHART_LEFT_PADDING + xPosition, BAR_CHART_TOP_PADDING + yEndPosition)];
+            [path moveToPoint:CGPointMake(offSetY + ChartLeftPadding + xPosition, ChartTopPadding + yStartPosition)];
+            [path addLineToPoint:CGPointMake(offSetY + ChartLeftPadding + xPosition, ChartTopPadding + yEndPosition)];
             path.lineWidth = barData.barWidth;
             [barData.color setStroke];
             [path stroke];
