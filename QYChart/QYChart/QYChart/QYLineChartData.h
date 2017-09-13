@@ -14,7 +14,8 @@
 @property (nonatomic, strong) NSMutableArray<NSNumber *> *values;
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, assign) CGFloat lineWidth;
+@property (nonatomic, strong) NSString *unit;
 
-- (instancetype)initWithValues:(NSArray<NSNumber *> *)values Color:(UIColor *)color LineWidth:(CGFloat)lineWidth;
+- (instancetype)initWithValues:(NSArray<NSNumber *> *)values Color:(UIColor *)color LineWidth:(CGFloat)lineWidth Unit:(NSString *)unit;
 
 @end

@@ -21,9 +21,18 @@
 /** 折线/曲线图层 */
 @property (nonatomic, strong) CAShapeLayer *lineChartLayer;
 
+@property (nonatomic, strong) NSMutableArray *tempViews;
+
 @end
 
 @implementation QYLineChart
+
+- (NSMutableArray *)tempViews {
+    if (!_tempViews) {
+        _tempViews = [NSMutableArray new];
+    }
+    return _tempViews;
+}
 
 - (void)setChartData:(NSMutableArray<QYLineChartData *> *)chartData {
     _chartData = [chartData mutableCopy];
@@ -32,6 +41,10 @@
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
+    
+    for (UIView *view in self.tempViews) {
+        [view removeFromSuperview];
+    }
     
     if (self.chartData.count) {
         if (self.isGradientRamp) {
@@ -42,16 +55,29 @@
             }
         }
         [self drawLineChart];
+    } else {
+        self.noDataLabel.text = NodataMsg;
     }
 }
 
 // 绘制正常曲线
 - (void)drawLineChart {
+    BOOL haveData = NO;
+    CGFloat cicleRadius = 6;
+    UIColor *cicleBackColor = [UIColor whiteColor];
+
     for (NSInteger i = 0; i < self.chartData.count; i++) {
         QYLineChartData *lineData = self.chartData[i];
         NSInteger totalCount = lineData.values.count;
         
         UIBezierPath *path = [UIBezierPath bezierPath];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
+        label.font = [UIFont systemFontOfSize:10];
+        label.textColor = lineData.color;
+        label.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:label];
+        [self.tempViews addObject:label];
         
         for (NSInteger j = 0; j < totalCount; j++) {
             if (j > 0) {
@@ -63,9 +89,29 @@
                 CGPoint endPoint = [self caculateNormalPointWithXindex:j Yvalue:num TotalCount:totalCount];
                 
                 if ([lastNum floatValue] > 0) {
+                    haveData = YES;
                     [path moveToPoint:startPoint];
                     [path addLineToPoint:startPoint];
-                    [path addArcWithCenter:startPoint radius:0.5 startAngle:0 endAngle:2 * M_PI clockwise:YES];
+                    
+                    if (self.isHideCicle) {
+                        cicleRadius = lineData.lineWidth;
+                        cicleBackColor = lineData.color;
+                    }
+                    
+                    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cicleRadius, cicleRadius)];
+                    view.backgroundColor = cicleBackColor;
+                    [view setBorderCornerWithBorderWidth:lineData.lineWidth borderColor:lineData.color cornerRadius:view.frame.size.width * 0.5];
+                    view.center = startPoint;
+                    [self addSubview:view];
+                    [self.tempViews addObject:view];
+                    
+                    
+                    if (!self.isHideLastTitle) {
+                        label.center = CGPointMake(startPoint.x, startPoint.y - 14);
+                        NSString *lastNumStr = [QYChartUtil checkIsIntergerValueBy:[lastNum floatValue]];
+                        label.text = [NSString stringWithFormat:@"%@%@",lastNumStr,lineData.unit];
+                    }
+                    
                 }
                 if ([num floatValue] > 0) {
                     if (self.isCurveLine) {//曲线
@@ -102,9 +148,27 @@
                     }
                 }
                 if ([num floatValue] > 0 && j == totalCount - 1) {
+                    haveData = YES;
                     [path moveToPoint:endPoint];
                     [path addLineToPoint:endPoint];
-                    [path addArcWithCenter:endPoint radius:0.5 startAngle:0 endAngle:2 * M_PI clockwise:YES];
+                    
+                    if (self.isHideCicle) {
+                        cicleRadius = lineData.lineWidth;
+                        cicleBackColor = lineData.color;
+                    }
+                    
+                    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cicleRadius, cicleRadius)];
+                    view.backgroundColor = cicleBackColor;
+                    [view setBorderCornerWithBorderWidth:lineData.lineWidth borderColor:lineData.color cornerRadius:view.frame.size.width * 0.5];
+                    view.center = endPoint;
+                    [self addSubview:view];
+                    [self.tempViews addObject:view];
+                    
+                    if (!self.isHideLastTitle) {
+                        label.center = CGPointMake(endPoint.x, endPoint.y - 14);
+                        NSString *numStr = [QYChartUtil checkIsIntergerValueBy:[num floatValue]];
+                        label.text = [NSString stringWithFormat:@"%@%@",numStr,lineData.unit];
+                    }
                 }
             }
         }
@@ -160,6 +224,12 @@
             [lineData.color setStroke];
             [path stroke];
         }
+        
+        if (haveData) {
+            self.noDataLabel.text = @"";
+        } else {
+            self.noDataLabel.text = NodataMsg;
+        }
     }
     
 }
@@ -192,10 +262,17 @@
         CGFloat yPosition = chartHeight - (chartHeight * ((num - self.yAxisRange.location) / self.yAxisRange.length));
         return CGPointMake(xPosition, yPosition);
     } else {
-        CGFloat num = [yvalue floatValue];
-        CGFloat xPosition = offSetY + ChartLeftPadding + (chartWidth * (xindex+1)/(totalCount + 1));
-        CGFloat yPosition = self.bounds.size.height - offSetX - (chartHeight * ((num - self.yAxisRange.location) / self.yAxisRange.length));
-        return CGPointMake(xPosition, yPosition);
+        if (self.isFullWidth) {
+            CGFloat num = [yvalue floatValue];
+            CGFloat xPosition = offSetY + ChartLeftPadding + (chartWidth * xindex/(totalCount));
+            CGFloat yPosition = self.bounds.size.height - offSetX - (chartHeight * ((num - self.yAxisRange.location) / self.yAxisRange.length));
+            return CGPointMake(xPosition, yPosition);
+        } else {
+            CGFloat num = [yvalue floatValue];
+            CGFloat xPosition = offSetY + ChartLeftPadding + (chartWidth * (xindex+1)/(totalCount + 1));
+            CGFloat yPosition = self.bounds.size.height - offSetX - (chartHeight * ((num - self.yAxisRange.location) / self.yAxisRange.length));
+            return CGPointMake(xPosition, yPosition);
+        }
     }
 }
 

@@ -17,6 +17,18 @@
 
 @implementation QYCoordinateChart
 
+- (UILabel *)noDataLabel {
+    if (!_noDataLabel) {
+        _noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(offSetX, ChartTopPadding, chartWidth, chartHeight)];
+        _noDataLabel.backgroundColor = [UIColor clearColor];
+        _noDataLabel.textColor = self.noDataLabelColor ? self.noDataLabelColor : [UIColor whiteColor];
+        _noDataLabel.textAlignment = NSTextAlignmentCenter;
+        _noDataLabel.font = [UIFont systemFontOfSize:10];
+        [self insertSubview:_noDataLabel atIndex:1000];
+    }
+    return _noDataLabel;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -42,12 +54,9 @@
     _yAxisTitles = [NSMutableArray new];
     _yAxisValues = [NSMutableArray new];
     //控制
-    _isDrawCoordinate = YES;
-    _isDrawRightCoordinate = NO;
-    _isDrawTopCoordinate = NO;
+  
     _baseLineType = QYNoBaseLine;
     _isShowXaxixTitle = YES;
-    _isShowYaxixTitle = YES;
     _isYaxixTitleSameLevelWithBaseline = YES;
     //颜色
     _yAxisTitleColors = @[[UIColor blackColor]];
@@ -69,9 +78,24 @@
 }
 
 - (void)caculateCommonValue {
-    offSetY = self.isShowYaxixTitle ? (self.yAxisTitleWidth - self.yAxisTitleOffset) : 0;
-    offSetX = self.isShowXaxixTitle ? (self.xAxisTitleHeight - self.xAxisTitleOffset) : 0;
+    offSetY = 0;
     chartWidth = self.bounds.size.width - ChartLeftPadding - offSetY - ChartRightPadding;
+    switch (self.yAxisType) {
+        case QYNoYAxis: {
+        }
+            break;
+        case QYLeftYAxis: {
+            offSetY = self.yAxisTitleWidth - self.yAxisTitleOffset;
+        }
+            break;
+        case QYRightYAxis: {
+            chartWidth = self.bounds.size.width - ChartLeftPadding - offSetY - ChartRightPadding - self.yAxisTitleWidth;
+        }
+            break;
+        default:
+            break;
+    }
+    offSetX = self.isShowXaxixTitle ? (self.xAxisTitleHeight - self.xAxisTitleOffset) : 0;
     chartHeight = self.bounds.size.height - ChartTopPadding - offSetX;
 }
 
@@ -81,17 +105,13 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-    if (self.isDrawCoordinate) {
-        [self drawCoordinateWithContext];
-    }
+    [self drawCoordinateWithContext];
     [self drawBaseLine];
     
     if (self.isShowXaxixTitle) {
         [self drawXLabels];
     }
-    if (self.isShowYaxixTitle) {
-        [self drawYLabels];
-    }
+    [self drawYLabels];
 }
 
 - (void)drawXLabels {
@@ -121,6 +141,10 @@
 }
 
 - (void)drawYLabels {
+
+    
+    if (self.yAxisType == QYNoYAxis) return;
+    
     if (self.yLabels.count) {
         [self.yLabels makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self.yLabels removeAllObjects];
@@ -179,7 +203,11 @@
         ylabel.adjustsFontSizeToFitWidth = YES;
         ylabel.numberOfLines             = 0;
         ylabel.text                      = self.yAxisTitles[i];
-        ylabel.center                    = CGPointMake(self.yAxisTitleOffset + self.yAxisTitleWidth * 0.5, self.bounds.size.height - yPosition - offSetX);
+        if (self.yAxisType == QYLeftYAxis) {
+            ylabel.center = CGPointMake(self.yAxisTitleOffset + self.yAxisTitleWidth * 0.5, self.bounds.size.height - yPosition - offSetX);
+        } else if (self.yAxisType == QYRightYAxis) {
+            ylabel.center = CGPointMake(self.bounds.size.width - self.yAxisTitleOffset - self.yAxisTitleWidth * 0.5, self.bounds.size.height - yPosition - offSetX);
+        }
         
         [self.yLabels addObject:ylabel];
         [self addSubview:ylabel];
@@ -191,31 +219,81 @@
 - (void)drawCoordinateWithContext {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGFloat width = self.bounds.size.width;
-    
-    CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
-    CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding);
-    CGContextAddLineToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + chartHeight);
-    CGContextStrokePath(context);
-    
-    CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
-    CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + chartHeight);
-    CGContextAddLineToPoint(context, width - ChartRightPadding, ChartTopPadding + chartHeight);
-    CGContextStrokePath(context);
-    
-    if (self.isDrawRightCoordinate) {
-        CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
-        CGContextMoveToPoint(context, width - ChartRightPadding, ChartTopPadding);
-        CGContextAddLineToPoint(context, width - ChartRightPadding, ChartTopPadding + chartHeight);
-        CGContextStrokePath(context);
+    switch (self.coordinateLineType) {
+        case QYNoCoordinateLine:{
+        }
+            break;
+        case QYBottomeCoordinateLine:{
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + chartHeight);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+        }
+            break;
+        case QYLeftCoordinateLine:{
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+        }
+            break;
+        case QYLBCoordinateLine:{
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+            
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + chartHeight);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+        }
+            break;
+        case QYRightCoordinateLine:{
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+        }
+            break;
+        case QYRBCoordinateLine:{
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+            
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + chartHeight);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+        }
+            break;
+        case QYFullCoordinateLine:{
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+            
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + chartHeight);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+            
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding + chartHeight);
+            CGContextStrokePath(context);
+            
+            CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
+            CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding);
+            CGContextAddLineToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding);
+            CGContextStrokePath(context);
+        }
+            break;
+        default:
+            break;
     }
-    
-    if (self.isDrawTopCoordinate) {
-        CGContextSetStrokeColorWithColor(context, self.coordinateColor.CGColor);
-        CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding);
-        CGContextAddLineToPoint(context, width - ChartRightPadding, ChartTopPadding);
-        CGContextStrokePath(context);
-    }
+
 }
 
 // 绘制网格
@@ -240,16 +318,13 @@
     if (!self.yAxisValues.count) {
         return;
     }
-    CGFloat width = self.bounds.size.width;
     //绘制虚线网格
     CGContextRef context = UIGraphicsGetCurrentContext();
     // 设置上下文环境 属性
     CGFloat dashLineWidth = 1.f;
-    [self.baseLineColor setStroke];
     CGContextSetLineWidth(context, dashLineWidth);
     CGContextSetLineCap(context, kCGLineCapRound);
-    CGContextSetAlpha(context, 0.7);
-    CGFloat alilengths[2] = {5, 3};
+    CGFloat alilengths[2] = {1, 2};
     CGContextSetLineDash(context, 0, alilengths, 2);
     // 画横虚线
     for (NSInteger i=0; i<self.yAxisValues.count; i++) {
@@ -267,7 +342,7 @@
         }
         
         CGPoint startPoint = CGPointMake(offSetY + ChartLeftPadding, ChartTopPadding + yPosition);
-        CGPoint endPoint = CGPointMake(width - ChartRightPadding, ChartTopPadding + yPosition);
+        CGPoint endPoint = CGPointMake(offSetY + ChartLeftPadding + chartWidth, ChartTopPadding + yPosition);
         CGMutablePathRef path = CGPathCreateMutable();
         CGPathMoveToPoint(path, nil, startPoint.x, startPoint.y );
         CGPathAddLineToPoint(path, nil, endPoint.x, endPoint.y );
@@ -277,6 +352,7 @@
     }
     CGFloat alilengths2[2] = {5, 0};
     CGContextSetLineDash(context, 0, alilengths2, 2);
+    
 }
 
 - (void)drawSolidLine {
@@ -284,7 +360,6 @@
     if (!self.yAxisValues.count) {
         return;
     }
-    CGFloat width = self.bounds.size.width;
     
     //绘制实线网格
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -304,7 +379,7 @@
         }
         
         CGContextMoveToPoint(context, offSetY + ChartLeftPadding, ChartTopPadding + yPosition);
-        CGContextAddLineToPoint(context, width - ChartRightPadding, ChartTopPadding + yPosition);
+        CGContextAddLineToPoint(context, offSetY + ChartLeftPadding + chartWidth, ChartTopPadding + yPosition);
         CGContextStrokePath(context);
     }
 }

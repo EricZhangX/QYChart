@@ -19,6 +19,8 @@
 #import "QYBarChart.h"
 #import "QYBarChartData.h"
 
+#import "QYChartUtil.h"
+
 
 
 #endif /* QYChart_h */

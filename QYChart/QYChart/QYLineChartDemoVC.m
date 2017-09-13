@@ -37,7 +37,7 @@
             CGFloat value = (rand+1) * 5;
             [values addObject:@(value)];
         }
-        QYLineChartData * data = [[QYLineChartData alloc] initWithValues:values Color:[UIColor colorWithRed:i*0.5 green:0.3 blue:0.6 alpha:1.f] LineWidth:1.f];
+        QYLineChartData * data = [[QYLineChartData alloc] initWithValues:values Color:[UIColor colorWithRed:i*0.5 green:0.3 blue:0.6 alpha:1.f] LineWidth:1.f Unit:@""];
         [self.lineData addObject:data];
     }
     
@@ -55,6 +55,8 @@
     self.lineChart.yAxisRange = NSMakeRange(0, 100);
     self.lineChart.coordinateColor = [UIColor colorWithRed:0.722 green:0.200 blue:0.631 alpha:1.00];
     self.lineChart.xAxisTitles = self.xtitles;
+    self.lineChart.coordinateLineType = QYLBCoordinateLine;
+    self.lineChart.yAxisType = QYLeftYAxis;
     
     self.lineChart.chartData = self.lineData;
     

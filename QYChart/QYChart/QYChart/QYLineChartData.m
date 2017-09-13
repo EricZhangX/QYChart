@@ -10,12 +10,13 @@
 
 @implementation QYLineChartData
 
-- (instancetype)initWithValues:(NSArray<NSNumber *> *)values Color:(UIColor *)color LineWidth:(CGFloat)lineWidth {
+- (instancetype)initWithValues:(NSArray<NSNumber *> *)values Color:(UIColor *)color LineWidth:(CGFloat)lineWidth Unit:(NSString *)unit {
     self = [super init];
     if (self) {
         self.values = [values mutableCopy];
         self.color = color;
         self.lineWidth = lineWidth;
+        self.unit = unit;
     }
     return self;
 }

@@ -18,6 +18,10 @@
 //是否是曲线
 @property (nonatomic, assign) BOOL isCurveLine;
 
+@property (nonatomic, assign) BOOL isHideCicle;
+@property (nonatomic, assign) BOOL isHideLastTitle;
+@property (nonatomic, assign) BOOL isFullWidth;
+
 /**
  是否是渐变色
  * 渐变色模式下只能绘制一条曲线

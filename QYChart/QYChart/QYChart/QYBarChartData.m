@@ -10,12 +10,12 @@
 
 @implementation QYBarChartData
 
-- (instancetype)initWithValue:(CGFloat)value Width:(CGFloat)width Color:(UIColor *)color {
+- (instancetype)initWithValue:(CGFloat)value Width:(CGFloat)width Color:(NSArray *)colors {
     self = [super init];
     if (self) {
         self.value = value;
         self.barWidth = width;
-        self.color = color;
+        self.colors = colors;
     }
     return self;
 }

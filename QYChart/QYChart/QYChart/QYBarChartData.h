@@ -16,8 +16,8 @@
 //宽度
 @property (nonatomic, assign) CGFloat barWidth;
 //颜色
-@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong) NSArray <UIColor *>*colors;
 
-- (instancetype)initWithValue:(CGFloat)value Width:(CGFloat)width Color:(UIColor *)color;
+- (instancetype)initWithValue:(CGFloat)value Width:(CGFloat)width Color:(NSArray *)colors;
 
 @end

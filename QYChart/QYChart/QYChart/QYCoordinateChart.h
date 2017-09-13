@@ -7,16 +7,35 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QYChartUtil.h"
+#import "UIView+Util.h"
 
 #define ChartTopPadding 10
-#define ChartLeftPadding 8
-#define ChartRightPadding 8
-#define ChartDefaultYCount 4
+#define ChartLeftPadding 16
+#define ChartRightPadding 0
+#define ChartDefaultYCount 3
+#define NodataMsg @"无测量数据!"
 
 typedef NS_ENUM(NSInteger,QYBaseLineType) {
     QYNoBaseLine        = 0,
     QYDashDotBaseLine,
     QYSolidBaseLine,
+};
+
+typedef NS_ENUM(NSInteger,QYCoordinateLineType) {
+    QYNoCoordinateLine        = 0,
+    QYBottomeCoordinateLine,
+    QYLeftCoordinateLine,
+    QYLBCoordinateLine,
+    QYRightCoordinateLine,
+    QYRBCoordinateLine,
+    QYFullCoordinateLine
+};
+
+typedef NS_ENUM(NSInteger,QYYAxisType) {
+    QYNoYAxis        = 0,
+    QYLeftYAxis,
+    QYRightYAxis,
 };
 
 @interface QYCoordinateChart : UIView {
@@ -25,6 +44,8 @@ typedef NS_ENUM(NSInteger,QYBaseLineType) {
     CGFloat chartWidth;
     CGFloat chartHeight;
 }
+
+@property (nonatomic, strong) UILabel *noDataLabel;
 
 //数据
 //X轴数组
@@ -43,16 +64,12 @@ typedef NS_ENUM(NSInteger,QYBaseLineType) {
  底图标线的类型
  */
 @property (nonatomic, assign) QYBaseLineType baseLineType;
-//是否绘制坐标轴 default = YES
-@property (nonatomic, assign) BOOL isDrawCoordinate;
-//是否绘制坐标轴右边界 default = NO
-@property (nonatomic, assign) BOOL isDrawRightCoordinate;
-//是否绘制坐标轴上边界 default = NO
-@property (nonatomic, assign) BOOL isDrawTopCoordinate;
+//坐标轴显示类型
+@property (nonatomic, assign) QYCoordinateLineType coordinateLineType;
+//y轴显示类型
+@property (nonatomic, assign) QYYAxisType yAxisType;
 //是否显示x轴title default = YES
 @property (nonatomic, assign) BOOL isShowXaxixTitle;
-//是否显示y轴title default = YES
-@property (nonatomic, assign) BOOL isShowYaxixTitle;
 //y轴title 是否与标尺对齐 default = YES
 @property (nonatomic, assign) BOOL isYaxixTitleSameLevelWithBaseline;
 
@@ -66,6 +83,8 @@ typedef NS_ENUM(NSInteger,QYBaseLineType) {
 @property (nonatomic, strong) UIColor *coordinateColor;
 //底图颜色 default = gray
 @property (nonatomic, strong) UIColor *baseLineColor;
+//无数据字体颜色
+@property (nonatomic, strong) UIColor *noDataLabelColor;
 
 
 //尺寸

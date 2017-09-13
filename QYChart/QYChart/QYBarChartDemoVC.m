@@ -22,9 +22,12 @@
 - (QYBarChart *)barChart {
     if (!_barChart) {
         _barChart = [[QYBarChart alloc] initWithFrame:CGRectMake(0, 0, self.chartBaseView.bounds.size.width, self.chartBaseView.bounds.size.height)];
+        _barChart.backgroundColor = [UIColor whiteColor];
         _barChart.yAxisRange = NSMakeRange(0, 20);
+        _barChart.coordinateLineType = QYBottomeCoordinateLine;
+        _barChart.yAxisType = QYRightYAxis;
+        _barChart.baseLineType = QYDashDotBaseLine;
         _barChart.coordinateColor = [UIColor colorWithRed:0.722 green:0.200 blue:0.631 alpha:1.00];
-        _barChart.isShowYaxixTitle = YES;
         
     }
     return _barChart;
@@ -66,9 +69,10 @@
         for (int j = 0;  j< rand; j++) {
             NSInteger k = random()%2 + 1;
             UIColor *color = [UIColor colorWithRed:0.99f/k green:0.44f/k blue:0.77/k alpha:1.00];
+            UIColor *color2 = [UIColor colorWithRed:0.11f/k green:0.44f/k blue:0.77/k alpha:1.00];
             CGFloat value = k * 4;
             
-            QYBarChartData *data = [[QYBarChartData alloc] initWithValue:value Width:10.f Color:color];
+            QYBarChartData *data = [[QYBarChartData alloc] initWithValue:value Width:10.f Color:@[color,color2]];
             [barDatas addObject:data];
         }
         [dataArr addObject:barDatas];
@@ -76,7 +80,6 @@
         NSString *title = [NSString stringWithFormat:@"X-%d",i];
         [titles addObject:title];
     }
-    self.barChart.backgroundColor = [UIColor whiteColor];
     self.barChart.chartData = dataArr;
     self.barChart.yAxisRange = NSMakeRange(0, 50);
     self.barChart.coordinateColor = [UIColor colorWithRed:0.722 green:0.200 blue:0.631 alpha:1.00];
