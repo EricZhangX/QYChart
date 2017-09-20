@@ -14,4 +14,6 @@
 //数据源
 @property (nonatomic, strong) NSMutableArray<NSArray<QYBarChartData *> *> *chartData;
 
+@property (nonatomic, assign) BOOL isShowTopLabel;
+
 @end

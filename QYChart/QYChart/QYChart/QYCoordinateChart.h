@@ -10,10 +10,7 @@
 #import "QYChartUtil.h"
 #import "UIView+Util.h"
 
-#define ChartTopPadding 10
-#define ChartLeftPadding 16
-#define ChartRightPadding 0
-#define ChartDefaultYCount 3
+
 #define NodataMsg @"无测量数据!"
 
 typedef NS_ENUM(NSInteger,QYBaseLineType) {
@@ -38,6 +35,15 @@ typedef NS_ENUM(NSInteger,QYYAxisType) {
     QYRightYAxis,
 };
 
+
+@class QYCoordinateChart;
+@protocol QYChartDelegate <NSObject>
+
+- (void)complatedReload:(QYCoordinateChart *)chartView YLabelDetails:(NSArray *)yLabels;
+
+@end
+
+
 @interface QYCoordinateChart : UIView {
     CGFloat offSetY;
     CGFloat offSetX;
@@ -46,6 +52,7 @@ typedef NS_ENUM(NSInteger,QYYAxisType) {
 }
 
 @property (nonatomic, strong) UILabel *noDataLabel;
+@property (nonatomic, weak) id<QYChartDelegate> delegate;
 
 //数据
 //X轴数组
@@ -96,10 +103,24 @@ typedef NS_ENUM(NSInteger,QYYAxisType) {
 @property (nonatomic, assign) CGFloat xAxisTitleHeight;
 //x轴Title的偏移量 default = 1
 @property (nonatomic, assign) CGFloat xAxisTitleOffset;
+//ChartTopPadding default = 8
+@property (nonatomic, assign) CGFloat chartTopPadding;
+//ChartLeftPadding default = 8
+@property (nonatomic, assign) CGFloat chartLeftPadding;
+//ChartRightPadding default = 0
+@property (nonatomic, assign) CGFloat chartRightPadding;
+//ChartDefaultYCount default = 4
+@property (nonatomic, assign) NSInteger chartDefaultYCount;
+
+@property (nonatomic, assign) BOOL isXtitleOffset;
 
 //坐标轴宽度 default = 1
 @property (nonatomic, assign) CGFloat coordinateLineWidth;
 
+@property (nonatomic, strong) NSMutableArray *markLabelYPositions;
+
 - (void)drawChart;
+
+- (void)drawBaseLine;
 
 @end

@@ -58,6 +58,8 @@
     } else {
         self.noDataLabel.text = NodataMsg;
     }
+    
+    [self drawBaseLine];
 }
 
 // 绘制正常曲线
@@ -239,7 +241,7 @@
     if (self.gradientBackgroundView) {
         [self.gradientBackgroundView removeFromSuperview];
     }
-    self.gradientBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(offSetY + ChartLeftPadding + .5, ChartTopPadding, chartWidth-.5, chartHeight-.5)];
+    self.gradientBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(offSetY + self.chartLeftPadding + .5, self.chartTopPadding, chartWidth-.5, chartHeight-.5)];
     [self addSubview:self.gradientBackgroundView];
     /** 创建并设置渐变背景图层 */
     self.gradientLayer = [CAGradientLayer layer];
@@ -264,12 +266,12 @@
     } else {
         if (self.isFullWidth) {
             CGFloat num = [yvalue floatValue];
-            CGFloat xPosition = offSetY + ChartLeftPadding + (chartWidth * xindex/(totalCount));
+            CGFloat xPosition = offSetY + self.chartLeftPadding + (chartWidth * xindex/(totalCount));
             CGFloat yPosition = self.bounds.size.height - offSetX - (chartHeight * ((num - self.yAxisRange.location) / self.yAxisRange.length));
             return CGPointMake(xPosition, yPosition);
         } else {
             CGFloat num = [yvalue floatValue];
-            CGFloat xPosition = offSetY + ChartLeftPadding + (chartWidth * (xindex+1)/(totalCount + 1));
+            CGFloat xPosition = offSetY + self.chartLeftPadding + (chartWidth * (xindex+1)/(totalCount + 1));
             CGFloat yPosition = self.bounds.size.height - offSetX - (chartHeight * ((num - self.yAxisRange.location) / self.yAxisRange.length));
             return CGPointMake(xPosition, yPosition);
         }

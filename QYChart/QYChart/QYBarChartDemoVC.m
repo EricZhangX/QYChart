@@ -26,7 +26,6 @@
         _barChart.yAxisRange = NSMakeRange(0, 20);
         _barChart.coordinateLineType = QYBottomeCoordinateLine;
         _barChart.yAxisType = QYRightYAxis;
-        _barChart.baseLineType = QYDashDotBaseLine;
         _barChart.coordinateColor = [UIColor colorWithRed:0.722 green:0.200 blue:0.631 alpha:1.00];
         
     }

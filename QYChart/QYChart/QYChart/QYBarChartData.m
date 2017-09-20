@@ -14,6 +14,7 @@
     self = [super init];
     if (self) {
         self.value = value;
+//        NSLog(@"value = %@ -- self.value = %@",@(value),@(self.value));
         self.barWidth = width;
         self.colors = colors;
     }
